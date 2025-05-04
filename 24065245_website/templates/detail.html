@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block page_content %}
+<div class="row">
+  <div class="col-md-4">
+    <img src="{{ url_for('static', filename='images/' + book.image) }}" alt="{% if session['lang']=='zh' %}{{ book.name_zh }}{% else %}{{ book.name_en }}{% endif %}" class="img-responsive">
+  </div>
+  <div class="col-md-8">
+    <h3>{% if session['lang']=='zh' %}{{ book.name_zh }}{% else %}{{ book.name_en }}{% endif %}</h3>
+    <p>
+      {% if session['lang']=='zh' %}价格{% else %}Price{% endif %}: £{{ "%.2f"|format(book.price) }}<br>
+      {% if session['lang']=='zh' %}环境影响指数{% else %}Environmental Impact{% endif %}: {{ book.env_impact }}
+    </p>
+    <p>
+      {% if session['lang']=='zh' %}{{ book.description_zh }}{% else %}{{ book.description_en }}{% endif %}
+    </p>
+    <p>
+      <a href="{{ url_for('add_to_basket', book_id=book.id) }}" class="btn btn-primary">{% if session['lang']=='zh' %}加入购物篮{% else %}Add to Basket{% endif %}</a>
+    </p>
+  </div>
+</div>
+<hr>
+<h4>{% if session['lang']=='zh' %}用户评论{% else %}Comments{% endif %}:</h4>
+{% if comments %}
+  {% for comment in comments %}
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <p>{{ comment.content }}</p>
+      <small class="text-muted">{{ comment.user.username }} - {{ comment.timestamp.strftime('%Y-%m-%d %H:%M') if comment.timestamp else '' }}</small>
+    </div>
+  </div>
+  {% endfor %}
+{% else %}
+  <p class="text-muted">{% if session['lang']=='zh' %}暂无评论。{% else %}No comments yet.{% endif %}</p>
+{% endif %}
+<hr>
+{% if current_user.is_authenticated %}
+  <h5>{% if session['lang']=='zh' %}添加评论{% else %}Add a Comment{% endif %}:</h5>
+  <form method="post">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+      <textarea name="content" class="form-control" rows="3" placeholder="{% if session['lang']=='zh' %}输入评论...{% else %}Enter your comment...{% endif %}">{{ form.content.data }}</textarea>
+      {% for error in form.content.errors %}
+      <div class="text-danger">{{ error }}</div>
+      {% endfor %}
+    </div>
+    <button type="submit" class="btn btn-primary">{% if session['lang']=='zh' %}提交{% else %}Submit{% endif %}</button>
+  </form>
+{% else %}
+  <p>
+    <a href="{{ url_for('login', next=request.path) }}">{% if session['lang']=='zh' %}登录{% else %}Log in{% endif %}</a>
+    {% if session['lang']=='zh' %}后才能评论。{% else %}to leave a comment.{% endif %}
+    {% if session['lang']=='zh' %}没有账号？{% else %}No account?{% endif %}
+    <a href="{{ url_for('register', next=request.path) }}">{% if session['lang']=='zh' %}注册{% else %}Register{% endif %}</a>.
+  </p>
+{% endif %}
+{% endblock %}

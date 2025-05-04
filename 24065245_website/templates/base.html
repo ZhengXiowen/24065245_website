@@ -1,0 +1,47 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}{% if session['lang']=='zh' %}书店{% else %}Bookstore{% endif %}{% endblock %}
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+{% block navbar %}
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="{{ url_for('index') }}">
+        {% if session['lang']=='zh' %}书店{% else %}Bookstore{% endif %}
+      </a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="{% if request.endpoint=='index' %}active{% endif %}"><a href="{{ url_for('index') }}">{% if session['lang']=='zh' %}首页{% else %}Home{% endif %}</a></li>
+      <li class="{% if request.endpoint=='basket' %}active{% endif %}"><a href="{{ url_for('basket') }}">{% if session['lang']=='zh' %}购物篮{% else %}Basket{% endif %}</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li class="navbar-text">
+        <a href="{{ url_for('set_language', lang_code='en', next=request.full_path) }}">English</a> |
+        <a href="{{ url_for('set_language', lang_code='zh', next=request.full_path) }}">中文</a>
+      </li>
+      {% if current_user.is_authenticated %}
+        <li class="navbar-text">{% if session['lang']=='zh' %}你好{% else %}Hello{% endif %}, {{ current_user.username }}!</li>
+        <li><a href="{{ url_for('logout') }}">{% if session['lang']=='zh' %}登出{% else %}Logout{% endif %}</a></li>
+      {% else %}
+        <li class="{% if request.endpoint=='login' %}active{% endif %}"><a href="{{ url_for('login') }}">{% if session['lang']=='zh' %}登录{% else %}Login{% endif %}</a></li>
+        <li class="{% if request.endpoint=='register' %}active{% endif %}"><a href="{{ url_for('register') }}">{% if session['lang']=='zh' %}注册{% else %}Register{% endif %}</a></li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
+{% endblock %}
+{% block content %}
+  <div class="container">
+    {% block page_content %}{% endblock %}
+  </div>
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script>
+      var currentLang = "{{ session['lang'] }}";
+    </script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+{% endblock %}
+{% block footer %}{% endblock %}

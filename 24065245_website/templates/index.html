@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block page_content %}
+<div class="jumbotron text-center" style="margin-top:10px;">
+  <h1>{% if session['lang']=='zh' %}欢迎来到书店{% else %}Welcome to the Bookstore{% endif %}</h1>
+  <p>{% if session['lang']=='zh' %}寻找下一本好书。{% else %}Find your next great read.{% endif %}</p>
+</div>
+<form class="form-inline text-center" method="get" action="{{ url_for('index') }}" style="margin-bottom:20px;">
+  <div class="form-group">
+    <input type="text" name="q" class="form-control" placeholder="{% if session['lang']=='zh' %}搜索图书...{% else %}Search books...{% endif %}" value="{{ request.args.get('q','') }}">
+  </div>
+  <div class="form-group">
+    <select name="sort" class="form-control">
+      <option value="name" {% if request.args.get('sort')=='name' or not request.args.get('sort') %}selected{% endif %}>{% if session['lang']=='zh' %}名称{% else %}Name{% endif %}</option>
+      <option value="price" {% if request.args.get('sort')=='price' %}selected{% endif %}>{% if session['lang']=='zh' %}价格{% else %}Price{% endif %}</option>
+      <option value="env" {% if request.args.get('sort')=='env' %}selected{% endif %}>{% if session['lang']=='zh' %}环境指数{% else %}Env Impact{% endif %}</option>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary">{% if session['lang']=='zh' %}搜索{% else %}Search{% endif %}</button>
+</form>
+<div class="row">
+  {% for book in books %}
+  <div class="col-sm-6 col-md-4 col-lg-3 text-center">
+    <div class="book-card" data-id="{{ book.id }}" style="margin-bottom:20px; padding:10px;">
+      <a href="{{ url_for('book_detail', book_id=book.id) }}">
+        <img src="{{ url_for('static', filename='images/' + book.image) }}" alt="{% if session['lang']=='zh' %}{{ book.name_zh }}{% else %}{{ book.name_en }}{% endif %}" class="img-responsive" style="height:200px; margin:0 auto;">
+      </a>
+      <h4 class="card-title">{% if session['lang']=='zh' %}{{ book.name_zh }}{% else %}{{ book.name_en }}{% endif %}</h4>
+      <p>
+        {% if session['lang']=='zh' %}价格{% else %}Price{% endif %}: £{{ "%.2f"|format(book.price) }}<br>
+        {% if session['lang']=='zh' %}环境影响{% else %}Env Impact{% endif %}: {{ book.env_impact }}
+      </p>
+      <p>
+        <a href="{{ url_for('add_to_basket', book_id=book.id) }}" class="btn btn-primary btn-sm">{% if session['lang']=='zh' %}加入购物篮{% else %}Add to Basket{% endif %}</a>
+        <a href="{{ url_for('book_detail', book_id=book.id) }}" class="btn btn-default btn-sm">{% if session['lang']=='zh' %}详情{% else %}Details{% endif %}</a>
+      </p>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

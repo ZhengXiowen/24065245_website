@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block page_content %}
+<h2>{% if session['lang']=='zh' %}结账{% else %}Checkout{% endif %}</h2>
+<form method="post" novalidate>
+  {{ form.hidden_tag() }}
+  <div class="form-group">
+    <label for="name">{% if session['lang']=='zh' %}姓名{% else %}Name{% endif %}</label>
+    {{ form.name(class="form-control") }}
+    {% for error in form.name.errors %}
+    <div class="text-danger">{{ error }}</div>
+    {% endfor %}
+  </div>
+  <div class="form-group">
+    <label for="card_number">{% if session['lang']=='zh' %}银行卡号{% else %}Card Number{% endif %}</label>
+    {{ form.card_number(class="form-control", placeholder="1234 5678 9012 3456") }}
+    {% for error in form.card_number.errors %}
+    <div class="text-danger">{{ error }}</div>
+    {% endfor %}
+  </div>
+  <div class="form-row" style="overflow:auto;">
+    <div class="form-group" style="float:left; width:33%; padding-right:5px;">
+      <label for="cvv">CVV</label>
+      {{ form.cvv(class="form-control", placeholder="123") }}
+      {% for error in form.cvv.errors %}
+      <div class="text-danger">{{ error }}</div>
+      {% endfor %}
+    </div>
+    <div class="form-group" style="float:left; width:33%; padding-right:5px;">
+      <label for="exp_month">{% if session['lang']=='zh' %}有效月{% else %}Exp Month{% endif %}</label>
+      {{ form.exp_month(class="form-control") }}
+      {% for error in form.exp_month.errors %}
+      <div class="text-danger">{{ error }}</div>
+      {% endfor %}
+    </div>
+    <div class="form-group" style="float:left; width:33%;">
+      <label for="exp_year">{% if session['lang']=='zh' %}有效年{% else %}Exp Year{% endif %}</label>
+      {{ form.exp_year(class="form-control", placeholder="YYYY") }}
+      {% for error in form.exp_year.errors %}
+      <div class="text-danger">{{ error }}</div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="email">Email</label>
+    {{ form.email(class="form-control", placeholder="example@example.com") }}
+    {% for error in form.email.errors %}
+    <div class="text-danger">{{ error }}</div>
+    {% endfor %}
+  </div>
+  <div class="form-group">
+    <label for="address">{% if session['lang']=='zh' %}收货地址{% else %}Shipping Address{% endif %}</label>
+    {{ form.address(class="form-control", rows="3") }}
+    {% for error in form.address.errors %}
+    <div class="text-danger">{{ error }}</div>
+    {% endfor %}
+  </div>
+  <button type="submit" class="btn btn-primary">{% if session['lang']=='zh' %}支付{% else %}Pay Now{% endif %}</button>
+</form>
+{% endblock %}

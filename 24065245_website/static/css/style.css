@@ -1,0 +1,89 @@
+:root {
+    --color-bg:          #D8CFC4;
+    --color-surface:     #E4DBD4;
+    --color-nav:         #A6A396;
+    --color-highlight:   #B39D8B;
+    --color-text-primary:   #403D39;
+    --color-text-secondary: #6D6A66;
+    --color-text-inverse:   #F5F0ED;
+    --color-primary:     #9A8F85;
+    --color-primary-hover: #7F766E;
+    --color-success:     #8D9A91;
+    --color-success-hover: #757F76;
+    --color-danger:      #A78578;
+    --color-danger-hover: #8C6B60;
+    --color-border:      #BEB1A8;
+  }
+  
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  
+  .navbar {
+    background-color: var(--color-nav);
+    border: none;
+  }
+  .navbar .navbar-brand,
+  .navbar .nav > li > a {
+    color: var(--color-text-inverse) !important;
+  }
+  .navbar .nav > li > a:hover,
+  .navbar .nav > li > a:focus {
+    color: var(--color-text-inverse) !important;
+    background-color: transparent;
+  }
+  
+  .card-title {
+    color: var(--color-text-secondary);
+  }
+  
+  .book-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+  }
+  
+  .jumbotron {
+    background-color: var(--color-highlight);
+    color: var(--color-text-inverse);
+    padding: 2rem 1rem;
+  }
+  
+  .btn-primary {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+  .btn-primary:hover,
+  .btn-primary:focus {
+    background-color: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
+  }
+  
+  .btn-success {
+    background-color: var(--color-success);
+    border-color: var(--color-success);
+  }
+  .btn-success:hover,
+  .btn-success:focus {
+    background-color: var(--color-success-hover);
+    border-color: var(--color-success-hover);
+  }
+  
+  .btn-danger {
+    background-color: var(--color-danger);
+    border-color: var(--color-danger);
+  }
+  .btn-danger:hover,
+  .btn-danger:focus {
+    background-color: var(--color-danger-hover);
+    border-color: var(--color-danger-hover);
+  }
+  
+  .table-bordered,
+  .table-bordered td,
+  .table-bordered th {
+    border-color: var(--color-border) !important;
+  }
+  

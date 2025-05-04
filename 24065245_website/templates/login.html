@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block page_content %}
+<h2>{% if session['lang']=='zh' %}登录{% else %}Login{% endif %}</h2>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <div class="alert alert-danger">{{ messages[0] }}</div>
+  {% endif %}
+{% endwith %}
+<form method="post">
+  {{ form.hidden_tag() }}
+  <div class="form-group">
+    <label for="username">{% if session['lang']=='zh' %}用户名{% else %}Username{% endif %}</label>
+    {{ form.username(class="form-control") }}
+    {% for error in form.username.errors %}
+    <div class="text-danger">{{ error }}</div>
+    {% endfor %}
+  </div>
+  <div class="form-group">
+    <label for="password">{% if session['lang']=='zh' %}密码{% else %}Password{% endif %}</label>
+    {{ form.password(class="form-control") }}
+    {% for error in form.password.errors %}
+    <div class="text-danger">{{ error }}</div>
+    {% endfor %}
+  </div>
+  <button type="submit" class="btn btn-primary">{% if session['lang']=='zh' %}登录{% else %}Login{% endif %}</button>
+</form>
+{% endblock %}

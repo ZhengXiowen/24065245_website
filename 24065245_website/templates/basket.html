@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block page_content %}
+<h2>{% if session['lang']=='zh' %}购物篮{% else %}Shopping Basket{% endif %}</h2>
+{% if not items %}
+  <p class="text-muted">{% if session['lang']=='zh' %}您的购物篮为空。{% else %}Your basket is empty.{% endif %}</p>
+{% else %}
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>{% if session['lang']=='zh' %}书名{% else %}Book{% endif %}</th>
+        <th>{% if session['lang']=='zh' %}价格{% else %}Price{% endif %}</th>
+        <th>{% if session['lang']=='zh' %}数量{% else %}Quantity{% endif %}</th>
+        <th>{% if session['lang']=='zh' %}小计{% else %}Subtotal{% endif %}</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for book, qty in items %}
+      <tr>
+        <td>{% if session['lang']=='zh' %}{{ book.name_zh }}{% else %}{{ book.name_en }}{% endif %}</td>
+        <td>£{{ "%.2f"|format(book.price) }}</td>
+        <td>{{ qty }}</td>
+        <td>£{{ "%.2f"|format(book.price * qty) }}</td>
+        <td><a href="{{ url_for('remove_from_basket', book_id=book.id) }}" class="btn btn-danger btn-sm">{% if session['lang']=='zh' %}删除{% else %}Remove{% endif %}</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <h4>{% if session['lang']=='zh' %}总价{% else %}Total{% endif %}: £{{ "%.2f"|format(total) }}</h4>
+  <a href="{{ url_for('checkout') }}" class="btn btn-success">{% if session['lang']=='zh' %}前往结账{% else %}Proceed to Checkout{% endif %}</a>
+{% endif %}
+{% endblock %}
